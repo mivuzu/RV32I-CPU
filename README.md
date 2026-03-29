@@ -2,9 +2,10 @@
 
 This is a simple RISC-V core I am developing as a personal side project. As it stands it only supports the base integer ISA, hence the name. Memory-ordering and environment instructions (`fence`, `fence.tso`, `pause`, `ecall`, `ebreak`) are effetively treated as a `nop`, as are all unknown intructions with the expection of zero instructions, more on that later.
 
-The microarchitecture, right now, is a pipelined model with 5 stages, very simple branch prediction, size-configurable memory at compile time (8kB to 425kB), and a 25MHz clock. Higher frequencies can be achieved with smaller memory sizes, but for 425kB that is roughly Fmax. Clocks can be easily swapped be changing 2 lines in `src/main.v`, I trust you'll easily tell which after opening it.
+The microarchitecture right now is a pipelined model with 5 stages, very simple branch prediction, size-configurable memory at compile time (8kB to 425kB), and a 25MHz clock. Higher frequencies can be achieved with smaller memory sizes, but for 425kB that is roughly Fmax. Clocks can be easily swapped by changing 2 lines in `src/main.v`.
 
 I haven't extensively tested it, however all I've thrown at it works as expected.
+
 ## Build & Run
 
 Commands here are from the Makefile. If you run them as is without changing the Makefile or project at all, a bitstream for the ECP5 EVN will be generated and loaded.
@@ -26,7 +27,7 @@ There is also a `make test` command that will load the bitstream, compile and se
 
 ## Basic Operation
 
-At start up the system will be at state `0`, in which a PC can read/write memory over UART to the FPGA. CPU execution is also issued via UART, after which the system will be on state `1` and all UART data will be ignored. Zero instructions (first 7 bits zero) will stop CPU execution and make the system return to state `0`.
+At startup the system will be in state `0`, during this mode PC can read/write memory over UART to the FPGA. CPU execution is also issued via UART, after which the system will be in state `1` and all UART data will be ignored. Zero instructions (first 7 bits zero) will stop CPU execution and make the system return to state `0`.
 
 ### Host Command Format
 
