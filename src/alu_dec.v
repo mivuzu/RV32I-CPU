@@ -6,31 +6,26 @@ module alu_dec (
     funct7,
   output reg cin,arith,
   output reg [3:0] sel,
-  output reg flagout, flagsel
+  output reg flag_set, flag_sel
 );
   always @* begin
-    flagout=0;
+    flag_set=0;
     case (op)
-      0:begin {cin,arith,sel}=main_decoder;flagout=iflagout; end
+      0:begin {cin,arith,sel}=main_decoder;flag_set=iflag_set; end
       1:{cin,arith,sel}=6'b010000;
       2:{cin,arith,sel}=6'b010011;
       3:{cin,arith,sel}=6'b010011;
     endcase
-    //if (op[1])
-    //  {cin,arith,sel}=6'b010011;
-    //else if (op[0])
-    //  {cin,arith,sel}=6'b010000;
-    //else {cin,arith,sel}=main_decoder;
   end
   reg [5:0] main_decoder;
-  reg iflagout,iflagsel;
+  reg iflag_set,iflag_sel;
   always @* begin
-    iflagout=0;
-    flagsel=1'bx;
+    iflag_set=0;
+    flag_sel=1'bx;
     case (funct3)
       3'b000:main_decoder={4'b0100,{2{op5&&funct7}}};
-      3'b010:begin main_decoder=6'b010011;iflagout=1;flagsel=0; end
-      3'b011:begin main_decoder=6'b010011;iflagout=1;flagsel=1; end
+      3'b010:begin main_decoder=6'b010011;iflag_set=1;flag_sel=0; end
+      3'b011:begin main_decoder=6'b010011;iflag_set=1;flag_sel=1; end
       3'b100:main_decoder=6'b001100;
       3'b110:main_decoder=6'b000100;
       3'b111:main_decoder=6'b001000;

@@ -64,11 +64,12 @@ int main (int argc, char** argv) {
     printf("could not open file for reading\n");
     return 1;
   }
-  unsigned char dbuff [256];
+  const uint progsize=512;
+  unsigned char dbuff [progsize];
   //lseek(txt_fd,0x40,SEEK_SET); // for riscv64 binaries
   lseek(txt_fd,0x34,SEEK_SET);
   uint i;
-  for (i=0;i<256;i++) {
+  for (i=0;i<progsize;i++) {
     if ((i&3)==3) {
       read(txt_fd,&dbuff[i-3],4);
       //printf("%02x ",dbuff[i]);

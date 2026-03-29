@@ -18,10 +18,11 @@ module register_file (
   (* ram_style = "logic" *) 
   reg [31:0] x [31:0];
   reg [31:0] pc;
-  always @(posedge clk) begin
+  integer i;
+  always @(negedge clk)
     if (we) if (wa!=0) x[wa]<=wd;
+  always @(posedge clk)
     if (pc_we) pc<=pc_in; 
-  end
   always @* begin
     rd1=x[ra1];
     rd2=x[ra2];

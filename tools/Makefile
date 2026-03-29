@@ -1,7 +1,6 @@
 bin/loader: src/loader.c
 	cc -O3 src/loader.c -lftdi -lpthread -o bin/loader
 bin/prog.out: src/prog.S
-	#riscv32-elf-as src/prog.S -o bin/prog.out
 	riscv32-elf-as src/prog.S -o bin/prog.out
 bin/fsend: src/fsend.c
 	cc -O3 src/fsend.c -lftdi -o bin/fsend
